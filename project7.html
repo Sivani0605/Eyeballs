@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Eye Movement</title>
+  <style>
+    body {
+  background-color: #174A5A;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+  margin: 0;
+}
+
+.eye {
+  width: 80px;
+  height: 60px;
+  background-color: white;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.pupil {
+  width: 30px;
+  height: 30px;
+  background-color: black;
+  border-radius: 50%;
+  position: absolute;
+  top: 15px;
+  left: 25px;
+  transition: transform 0.05s;
+}
+
+</style>
+</head>
+<body>
+  <div class="eye" id="eye1">
+    <div class="pupil"></div>
+  </div>
+  <div class="eye" id="eye2">
+    <div class="pupil"></div>
+  </div>
+
+  <script>
+    const eyes = document.querySelectorAll('.eye');
+
+    document.addEventListener('mousemove', (e) => {
+      eyes.forEach(eye => {
+        const pupil = eye.querySelector('.pupil');
+        const eyeRect = eye.getBoundingClientRect();
+        const centerX = eyeRect.left + eyeRect.width / 2;
+        const centerY = eyeRect.top + eyeRect.height / 2;
+        const deltaX = e.clientX - centerX;
+        const deltaY = e.clientY - centerY;
+        const angle = Math.atan2(deltaY, deltaX);
+        const radius = 10;
+
+        const pupilX = radius * Math.cos(angle);
+        const pupilY = radius * Math.sin(angle);
+
+        pupil.style.transform = `translate(${pupilX}px, ${pupilY}px)`;
+      });
+    });
+  </script>
+</body>
+</html>
+
